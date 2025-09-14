@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Painel de monitoramento de acessos e capturas">
+    <title>Painel de Acessos | Sistema de Monitoramento</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #02f7c6;
+            --primary-dark: #019875;
+            --secondary-color: #0984e3;
+            --secondary-hover: #74b9ff;
+            --bg-gradient-start: #141e30;
+            --bg-gradient-end: #050506;
+            --table-bg: rgba(255, 255, 255, 0.1);
+            --table-hover: rgba(255, 255, 255, 0.05);
+            --header-bg: rgba(0, 184, 148, 0.6);
+            --text-color: #fffafa;
+            --border-color: rgba(255, 255, 255, 0.2);
+            --success-color: #4CAF50;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            color: var(--text-color);
+            padding: 20px;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        h1, h2 {
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        h1::after, h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .card {
+            background: rgba(25, 30, 45, 0.75);
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            transition: transform var(--transition-speed);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background: rgba(0, 0, 0, 0.25);
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .card-header i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        .card-body {
+            padding: 1rem;
+        }
+
+        .table-container {
+            max-height: 500px;
+            overflow-y: auto;
+            border-radius: 8px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-dark) rgba(0,0,0,0.1);
+        }
+
+        .table-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .table-container::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background-color: var(--primary-dark);
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--table-bg);
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--header-bg);
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        tr:hover {
+            background-color: var(--table-hover);
+        }
+
+        img.capture-photo {
+            border-radius: 6px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.4);
+            max-width: 200px;
+            transition: transform 0.3s ease;
+        }
+
+        img.capture-photo:hover {
+            transform: scale(1.05);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all var(--transition-speed);
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-hover);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+        }
+
+        .btn-success:hover {
+            background-color: #3d8b40;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+        }
+
+        .map-link {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color var(--transition-speed);
+        }
+
+        .map-link:hover {
+            color: var(--secondary-hover);
+            text-decoration: underline;
+        }
+
+        .map-link i {
+            margin-right: 5px;
+        }
+
+        .footer {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .cell-location {
+            font-size: 0.9rem;
+        }
+
+        .data-timestamp {
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 7px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: rgba(0, 184, 148, 0.3);
+        }
+
+        @media (max-width: 992px) {
+            table {
+                font-size: 0.85rem;
+            }
+            th, td {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            img.capture-photo {
+                max-width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Painel de Monitoramento</h1>
+        </header>
+
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-camera"></i>
+                <h2>Registros de Captura</h2>
+            </div>
+            <div class="card-body">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Investigado</th>
+                                <th>Data/Hora</th>
+                                <th>IPv6</th>
+                                <th>IPv4</th>
+                                <th>Sistema</th>
+                                <th>Localização</th>
+                                <th>Conexão</th>
+                                <th>Porta</th>
+                                <th>Foto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for r in registros %}
+                            <tr>
+                                <td>{{ links[r.slug] if r.slug in links else '---' }}</td>
+                                <td class="data-timestamp">{{ r.data_hora.strftime("%d/%m/%Y %H:%M:%S") }}</td>
+                                <td>{{ r.ip_v6 }}</td>
+                                <td>{{ r.ip_v4 }}</td>
+                                <td>{{ r.sistema }}</td>
+                                <td class="cell-location">
+                                    {% if r.latitude and r.longitude %}
+                                        <span class="badge">{{ r.latitude }}, {{ r.longitude }}</span><br>
+                                        <a href="https://www.google.com/maps?q={{ r.latitude }},{{ r.longitude }}"
+                                           target="_blank" class="map-link" title="Ver localização no Google Maps">
+                                           <i class="fas fa-map-marker-alt"></i> Ver no Mapa
+                                        </a>
+                                    {% else %}
+                                        <span>Não disponível</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ r.conexao }}</td>
+                                <td>{{ r.porta_r }}</td>
+                                <td>
+                                    {% if r.foto_arquivo %}
+                                        <img src="{{ url_for('static', filename='upload/' + r.foto_arquivo) }}" 
+                                             alt="Foto capturada" class="capture-photo" 
+                                             loading="lazy" onclick="this.requestFullscreen()">
+                                        <br>
+                                        <a href="{{ url_for('static', filename='upload/' + r.foto_arquivo) }}" 
+                                           download="{{ r.foto_arquivo }}" class="btn btn-success btn-sm" 
+                                           title="Baixar imagem capturada">
+                                            <i class="fas fa-download"></i> Baixar
+                                        </a>
+                                    {% else %}
+                                        <span>Sem foto</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-network-wired"></i>
+                <h2>IPs Capturados ao Acessar o Link</h2>
+            </div>
+            <div class="card-body">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Investigado</th>
+                                <th>Data/Hora</th>
+                                <th>Informações de Conexão</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ip in ips_iniciais %}
+                            <tr>
+                                <td>{{ links[ip.slug] if ip.slug in links else '---' }}</td>
+                                <td class="data-timestamp">{{ ip.data_hora.strftime("%d/%m/%Y %H:%M:%S") }}</td>
+                                <td>
+                                    {% if ip.ip_v4 %}
+                                        <div><strong>IPv4:</strong> {{ ip.ip_v4 }}</div>
+                                    {% endif %}
+                                    
+                                    {% if ip.ip_v6 %}
+                                        <div><strong>IPv6:</strong> {{ ip.ip_v6 }}</div>
+                                    {% endif %}
+                                    
+                                    <div><strong>Porta:</strong> {{ ip.porta }}</div>
+                                    
+                                    <a href="https://ipinfo.io/{{ ip.ip }}"
+                                       target="_blank"
+                                       class="btn btn-secondary btn-sm">
+                                       <i class="fas fa-info-circle"></i> Detalhes do IP
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <a href="{{ url_for('gerenciar') }}" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i> Voltar ao Gerenciamento
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Melhora a experiência de visualização de fotos
+        document.addEventListener('DOMContentLoaded', function() {
+            // Adiciona classes de fade-in para animação
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach((row, index) => {
+                row.style.opacity = '0';
+                row.style.animation = `fadeIn 0.3s ease forwards ${index * 0.05}s`;
+            });
+
+            // Função para formatar melhor as datas
+            const formatarDataRelativa = () => {
+                const timestamps = document.querySelectorAll('.data-timestamp');
+                timestamps.forEach(element => {
+                    const dataOriginal = element.textContent;
+                    element.setAttribute('title', dataOriginal);
+                });
+            };
+            
+            formatarDataRelativa();
+        });
+    </script>
+
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</body>
+</html>

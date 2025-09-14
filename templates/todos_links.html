@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Painel de gerenciamento de links de rastreamento">
+    <title>Gerenciador de Links | Painel Administrativo</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Animate.css para animações -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-hover: #3a56d4;
+            --secondary: #2ec4b6;
+            --danger: #e63946;
+            --success: #2a9d8f;
+            --warning: #ff9f1c;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --card-shadow: 0 8px 24px rgba(149, 157, 165, 0.2);
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f6f8fa;
+            color: #333;
+        }
+        
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            position: relative;
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+        
+        .page-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 0.75rem;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(149, 157, 165, 0.3);
+        }
+        
+        .table {
+            margin-bottom: 0;
+        }
+        
+        .table thead th {
+            background-color: #f8fafc;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            padding: 1rem 0.75rem;
+            border-top: none;
+            border-bottom: 2px solid #e9ecef;
+            color: #64748b;
+        }
+        
+        .table tbody td {
+            padding: 1rem 0.75rem;
+            vertical-align: middle;
+            border-color: #f1f5f9;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .action-btn {
+            width: 38px;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .copy-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+        }
+        
+        .copy-btn:hover {
+            background-color: var(--primary-hover);
+            transform: scale(1.05);
+        }
+        
+        .delete-btn {
+            background-color: var(--danger);
+            color: white;
+            border: none;
+        }
+        
+        .delete-btn:hover {
+            background-color: #d32f2f;
+            transform: scale(1.05);
+        }
+        
+        .back-btn {
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .copy-success {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--success);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+        
+        .badge-slug {
+            background-color: #e2e8f0;
+            color: #475569;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        
+        .link-text {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
+            margin: 0 auto;
+            font-family: monospace;
+            font-size: 0.9rem;
+            padding: 0.35rem 0.5rem;
+            background-color: #f1f5f9;
+            border-radius: 4px;
+            color: #334155;
+            cursor: pointer;
+        }
+        
+        .link-text:hover {
+            background-color: #e2e8f0;
+        }
+        
+        .table-striped > tbody > tr:nth-of-type(odd) > * {
+            background-color: #f8fafc;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #64748b;
+        }
+        
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+        }
+        
+        .tooltip-inner {
+            max-width: 200px;
+            background-color: var(--dark);
+        }
+        
+        .pulse-animation {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(67, 97, 238, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(67, 97, 238, 0);
+            }
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .card {
+                border-radius: 0.5rem;
+            }
+            
+            .table thead th {
+                font-size: 0.7rem;
+                padding: 0.75rem 0.5rem;
+            }
+            
+            .table tbody td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.85rem;
+            }
+            
+            .link-text {
+                max-width: 200px;
+                font-size: 0.8rem;
+            }
+            
+            .action-btn {
+                width: 34px;
+                height: 34px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container page-container py-4">
+        <div class="header d-flex justify-content-between align-items-center">
+            <h2 class="page-title mb-0">
+                <i class="fa-solid fa-link me-2"></i>Gerenciador de Links
+            </h2>
+            <a href="{{ url_for('gerenciar') }}" class="btn btn-dark back-btn">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Voltar ao Painel</span>
+            </a>
+        </div>
+        
+        {% if links %}
+        <div class="card animate__animated animate__fadeIn">
+            <div class="table-responsive">
+                <table class="table table-striped align-middle">
+                    <thead>
+                        <tr>
+                            <th width="25%">Investigado</th>
+                            <th width="15%">Identificador</th>
+                            <th width="40%">Link de Rastreamento</th>
+                            <th width="20%">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for link in links %}
+                        <tr class="animate__animated animate__fadeIn" style="animation-delay: {{ loop.index * 0.05 }}s">
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-placeholder me-2 rounded-circle bg-primary bg-opacity-10 text-primary" 
+                                         style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;">
+                                        {{ link.nome_investigado[:1] | upper }}
+                                    </div>
+                                    <div>{{ link.nome_investigado }}</div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge-slug">{{ link.slug }}</span>
+                            </td>
+                            <td>
+                                <div class="link-text" id="link-{{ loop.index }}" title="Clique para copiar" 
+                                     onclick="copiarLink({{ loop.index }})">
+                                    {{ url_for('rastrear_link', slug=link.slug, _external=True) }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn copy-btn" onclick="copiarLink({{ loop.index }})" data-bs-toggle="tooltip" title="Copiar link">
+                                        <i class="fa-solid fa-copy"></i>
+                                        <span class="copy-success" id="msg-{{ loop.index }}">Copiado!</span>
+                                    </button>
+                                    <form action="{{ url_for('excluir_link', link_id=link.id) }}" method="post" class="d-inline">
+                                        <button type="button" class="action-btn delete-btn" onclick="confirmarExclusao(this.parentElement)" data-bs-toggle="tooltip" title="Excluir link">
+                                            <i class="fa-solid fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="mt-4 text-center">
+            <p class="text-muted small">Total de links: <span class="fw-bold">{{ links|length }}</span></p>
+        </div>
+        {% else %}
+        <div class="card animate__animated animate__fadeIn">
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fa-solid fa-link-slash"></i>
+                </div>
+                <h4>Nenhum link criado</h4>
+                <p class="text-muted">Você ainda não criou nenhum link de rastreamento.</p>
+                <a href="{{ url_for('criar_link') }}" class="btn btn-primary mt-3 pulse-animation">
+                    <i class="fa-solid fa-plus me-2"></i>Criar Primeiro Link
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <!-- Modal de confirmação para exclusão -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Confirmar Exclusão</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja excluir este link? Esta ação não pode ser desfeita.</p>
+                    <p class="text-danger small"><i class="fa-solid fa-exclamation-triangle me-2"></i>Todos os dados de rastreamento associados a este link também serão excluídos.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Excluir Permanentemente</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Inicializa tooltips do Bootstrap
+        document.addEventListener('DOMContentLoaded', function() {
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+            
+            // Exibe animações com atraso sequencial
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach((row, index) => {
+                row.style.opacity = '0';
+                setTimeout(() => {
+                    row.style.opacity = '1';
+                }, 100 + (index * 50));
+            });
+        });
+        
+        // Função para copiar link
+        function copiarLink(index) {
+            const texto = document.getElementById("link-" + index).textContent.trim();
+            navigator.clipboard.writeText(texto).then(function() {
+                const msg = document.getElementById("msg-" + index);
+                msg.style.opacity = "1";
+                
+                // Adiciona efeito de pulso ao botão
+                const btn = msg.closest('.copy-btn');
+                btn.classList.add('animate__animated', 'animate__heartBeat');
+                
+                setTimeout(() => {
+                    msg.style.opacity = "0";
+                    btn.classList.remove('animate__animated', 'animate__heartBeat');
+                }, 2000);
+            });
+        }
+        
+        // Manipulação do modal de confirmação
+        let formToSubmit = null;
+        const confirmDeleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+        
+        function confirmarExclusao(form) {
+            formToSubmit = form;
+            confirmDeleteModal.show();
+        }
+        
+        document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+            if (formToSubmit) {
+                formToSubmit.submit();
+            }
+            confirmDeleteModal.hide();
+        });
+    </script>
+</body>
+</html>

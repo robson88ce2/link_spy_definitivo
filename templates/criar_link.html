@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página para criar novos links de rastreamento mascarados.">
+    <title>Criar Novo Link | Sistema de Monitoramento</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Animate.css para animações (opcional, mas mantém consistência) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <style>
+        /* Variáveis CSS para consistência */
+        :root {
+            --primary-color: #2563eb; /* Azul */
+            --primary-hover: #1d4ed8;
+            --secondary-color: #10b981; /* Verde */
+            --secondary-hover: #059669;
+            --accent-color: #f59e0b; /* Amarelo/Laranja */
+            --danger-color: #ef4444; /* Vermelho */
+            --danger-hover: #dc2626;
+            --bg-gradient-start: #0f172a;
+            --bg-gradient-middle: #0f1b31;
+            --bg-gradient-end: #0c1525;
+            --card-bg: rgba(30, 41, 59, 0.7); /* Fundo do card com transparência */
+            --input-bg: #e2e8f0; /* Cinza claro para inputs */
+            --input-text: #1e293b; /* Texto escuro para inputs */
+            --text-primary: #f8fafc; /* Texto branco */
+            --text-secondary: #cbd5e1; /* Texto cinza claro */
+            --border-radius: 12px;
+            --transition-speed: 0.3s;
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+        }
+
+        /* Reset básico e fonte */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-middle), var(--bg-gradient-end));
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            line-height: 1.6;
+            background-attachment: fixed; /* Efeito paralaxe no fundo */
+        }
+
+        /* Estilo do container principal (card) */
+        .container {
+            width: 100%;
+            max-width: 500px; /* Largura máxima do formulário */
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(8px); /* Efeito de vidro */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.6s ease-out; /* Animação de entrada */
+        }
+
+        /* Barra de destaque no topo do card */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        /* Estilo do cabeçalho */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .header h1 i {
+            color: var(--secondary-color);
+            margin-right: 10px;
+        }
+
+        /* Grupo de formulário */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        /* Estilo dos labels */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        /* Estilo dos inputs de texto, URL e select */
+        input[type="text"],
+        input[type="url"],
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            font-size: 16px;
+            transition: box-shadow var(--transition-speed);
+            outline: none; /* Remove outline padrão */
+        }
+
+        /* Estilo de foco para inputs e select */
+        input[type="text"]:focus,
+        input[type="url"]:focus,
+        select:focus {
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3); /* Sombra azul no foco */
+        }
+
+        /* Estilo específico para o select (seta customizada) */
+        select {
+            appearance: none; /* Remove seta padrão */
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%231e293b%22%20d%3D%22M287%2C114.7L159.2%2C7c-3.9-3.9-10.1-3.9-14%2C0L5.4%2C114.7c-3.9%2C3.9-3.9%2C10.1%2C0%2C14l6.3%2C6.3c3.9%2C3.9%2C10.1%2C3.9%2C14%2C0l114.9-114.9l114.9%2C114.9c3.9%2C3.9%2C10.1%2C3.9%2C14%2C0l6.3-6.3C290.9%2C124.9%2C290.9%2C118.6%2C287%2C114.7z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 15px center; /* Posição da seta */
+            background-size: 12px auto;
+            padding-right: 35px; /* Espaço para a seta */
+        }
+
+        /* Estilo do input de arquivo */
+        input[type="file"] {
+            width: 100%;
+            padding: 12px 0;
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        /* Estilo do botão de seleção de arquivo */
+        input[type="file"]::file-selector-button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: background-color var(--transition-speed);
+            margin-right: 15px;
+            font-weight: 500;
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Linha divisória */
+        hr {
+            border: none;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.1);
+            margin: 30px 0;
+        }
+
+        /* Estilo dos subtítulos */
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+         h3 i {
+            color: var(--accent-color); /* Cor para o ícone do subtítulo */
+            margin-right: 8px;
+        }
+
+        /* Estilo do botão de submit */
+        button[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color var(--transition-speed), transform 0.2s;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+         button[type="submit"] i {
+            margin-right: 8px;
+        }
+
+
+        /* Estilo da mensagem de status de upload */
+        .status-message {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            min-height: 1.2em; /* Reserva espaço para evitar layout shifts */
+            display: block; /* Garante que ocupe espaço mesmo vazio */
+        }
+
+         /* Cores para os estados da mensagem de status */
+        .status-message.loading {
+            color: var(--accent-color);
+        }
+        .status-message.success {
+            color: var(--secondary-color);
+        }
+        .status-message.error {
+            color: var(--danger-color);
+        }
+         .status-message i {
+            margin-right: 5px;
+        }
+
+
+        /* Estilo do link de voltar */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 30px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-speed);
+            font-size: 15px;
+        }
+
+        .back-link:hover {
+            color: var(--primary-color);
+        }
+
+        .back-link i {
+            margin-right: 8px;
+        }
+
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsividade */
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            label, input[type="text"], input[type="url"], select, input[type="file"], button[type="submit"] {
+                font-size: 15px;
+                padding: 10px 12px;
+            }
+
+            button[type="submit"] {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
+
+        /* Preferência de movimento reduzido para acessibilidade */
+        @media (prefers-reduced-motion) {
+            .container, button[type="submit"] {
+                animation: none;
+                transform: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container animate__animated animate__fadeIn">
+        <div class="header">
+            <h1><i class="fas fa-link"></i> Criar Novo Link</h1>
+        </div>
+
+        <!-- Removido enctype="multipart/form-data" pois o upload da imagem é feito via JS -->
+        <form method="POST" id="form-link">
+            <div class="form-group">
+                <label for="nome_investigado">Nome do Investigado:</label>
+                <input type="text" name="nome_investigado" id="nome_investigado" placeholder="Ex: João da Silva" required>
+            </div>
+
+            <div class="form-group">
+                <label for="slug">Identificador Personalizado (Slug):</label>
+                <input type="text" name="slug" id="slug" placeholder="Opcional (ex: joao-silva-perfil)">
+            </div>
+
+            <div class="form-group">
+                <label for="destino">URL de Destino Final:</label>
+                <input type="url" name="destino" id="destino" placeholder="Ex: https://g1.globo.com/fantastico" required>
+            </div>
+
+            <div class="form-group">
+                <label for="plataforma">Plataforma Visual (Modelo):</label>
+                    <select name="plataforma" id="plataforma" required>
+                        <option value="youtube">YouTube</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="facebook">Facebook</option>
+                        <option value="kwai">Kwai</option>
+                        <option value="tiktok">TikTok</option>
+                        <option value="noticia">Portal de Notícias</option>
+                        <option value="mercadopago">Mercado Pago</option> 
+                        <option value="googledrive">Google Drive</option> 
+                        <option value="default">Padrão (sem modelo)</option>
+                    </select>
+
+            </div>
+
+            <hr>
+
+            <h3><i class="fas fa-image"></i> Pré-visualização Alternativa (Opcional)</h3>
+            <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 20px;">Personalize o título, descrição e imagem que aparecerão na prévia do link (Open Graph/Twitter Card).</p>
+
+            <div class="form-group">
+                <label for="preview_titulo">Título da Pré-visualização:</label>
+                <input type="text" name="preview_titulo" id="preview_titulo" placeholder="Ex: Veja a reportagem completa...">
+            </div>
+
+            <div class="form-group">
+                <label for="preview_descricao">Descrição da Pré-visualização:</label>
+                <input type="text" name="preview_descricao" id="preview_descricao" placeholder="Ex: Vídeo exclusivo revela detalhes chocantes...">
+            </div>
+
+            <div class="form-group">
+                <label for="imagem_preview">Upload da Imagem de Pré-visualização:</label>
+                <input type="file" id="imagem_preview" accept="image/*">
+                <!-- Campo oculto para armazenar a URL da imagem após o upload -->
+                <!-- O 'name' deve corresponder ao que o backend espera (preview_imagem_url) -->
+                <input type="hidden" name="preview_imagem_url" id="preview_imagem_url">
+                <p id="status_upload" class="status-message"></p>
+            </div>
+
+             <!-- Campo oculto para preview_tipo, se necessário no backend -->
+             <!-- <input type="hidden" name="preview_tipo" value="article"> -->
+
+
+            <button type="submit"><i class="fas fa-plus-circle"></i> Gerar Link de Rastreamento</button>
+        </form>
+
+        <a href="{{ url_for('gerenciar') }}" class="back-link">
+            <i class="fas fa-arrow-left"></i> Voltar ao Painel
+        </a>
+    </div>
+
+    <script>
+        // Upload da imagem de preview alternativo
+        document.getElementById('imagem_preview').addEventListener('change', async function () {
+            const fileInput = this;
+            const status = document.getElementById('status_upload');
+            const inputPreviewImagemUrl = document.getElementById('preview_imagem_url');
+
+            // Limpa status anterior
+            status.innerHTML = "";
+            status.className = "status-message"; // Reseta classes
+
+            if (fileInput.files.length === 0) {
+                inputPreviewImagemUrl.value = ""; // Limpa o campo oculto
+                return; // Sai se nenhum arquivo foi selecionado
+            }
+
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append("imagem", file);
+
+            status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+            status.classList.add('loading'); // Adiciona classe para cor amarela
+
+            try {
+                const res = await fetch("{{ url_for('upload_imagem') }}", { // Usa url_for para a rota
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!res.ok) {
+                    // Lida com erros HTTP (ex: 400, 500)
+                    const errorData = await res.json().catch(() => ({ erro: 'Erro desconhecido no servidor.' })); // Tenta ler JSON de erro
+                    throw new Error(errorData.erro || `Erro HTTP ${res.status}`);
+                }
+
+                const data = await res.json();
+
+                if (data.url) {
+                    inputPreviewImagemUrl.value = data.url; // Define a URL no campo oculto
+                    status.innerHTML = '<i class="fas fa-check-circle"></i> Enviado com sucesso!';
+                    status.className = "status-message success"; // Adiciona classe para cor verde
+                } else {
+                    // Lida com resposta JSON sem URL (erro lógico do backend)
+                    throw new Error(data.erro || "Resposta do servidor inválida.");
+                }
+
+            } catch (err) {
+                console.error("Erro no upload:", err);
+                inputPreviewImagemUrl.value = ""; // Garante que o campo oculto esteja vazio em caso de erro
+                status.innerHTML = '<i class="fas fa-times-circle"></i> Erro: ' + err.message;
+                status.className = "status-message error"; // Adiciona classe para cor vermelha
+            }
+        });
+    </script>
+</body>
+</html>

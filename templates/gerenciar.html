@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Painel de gerenciamento do sistema de rastreamento">
+    <title>Painel de Gerenciamento | Sistema de Monitoramento</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome para ícones melhores -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary-color: #10b981;
+            --secondary-hover: #059669;
+            --danger-color: #ef4444;
+            --danger-hover: #dc2626;
+            --bg-gradient-start: #0f172a;
+            --bg-gradient-middle: #0f1b31;
+            --bg-gradient-end: #0c1525;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --border-radius: 12px;
+            --transition-speed: 0.3s;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-middle), var(--bg-gradient-end));
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            line-height: 1.6;
+            background-attachment: fixed;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .header h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+        
+        .menu-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 16px;
+        }
+        
+        .menu-item {
+            transition: transform var(--transition-speed);
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-3px);
+        }
+        
+        .menu-link {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+            padding: 18px 24px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all var(--transition-speed);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .menu-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            opacity: 0;
+            z-index: -1;
+            transition: opacity var(--transition-speed);
+        }
+        
+        .menu-link:hover {
+            color: white;
+            transform: scale(1.02);
+        }
+        
+        .menu-link:hover::before {
+            opacity: 1;
+        }
+        
+        .menu-link i {
+            font-size: 20px;
+            margin-right: 16px;
+            min-width: 24px;
+            text-align: center;
+        }
+        
+        .menu-link .menu-text {
+            flex-grow: 1;
+        }
+        
+        .menu-link .arrow {
+            margin-left: 8px;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all var(--transition-speed);
+        }
+        
+        .menu-link:hover .arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .dashboard-link {
+            --link-color: #3b82f6;
+        }
+        
+        .create-link {
+            --link-color: #10b981;
+        }
+        
+        .view-links {
+            --link-color: #f59e0b;
+        }
+        
+        .logout-link {
+            --link-color: #ef4444;
+            margin-top: 16px;
+        }
+        
+        .logout-link .menu-link {
+            background-color: rgba(239, 68, 68, 0.1);
+        }
+        
+        .logout-link .menu-link:hover {
+            background-color: var(--danger-color);
+        }
+        
+        .version {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
+        
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .container {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .menu-item {
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        .menu-item:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        
+        .menu-item:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .menu-item:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+        
+        .menu-item:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+            
+            .header h2 {
+                font-size: 24px;
+            }
+            
+            .menu-link {
+                padding: 16px 20px;
+            }
+        }
+        
+        @media (prefers-reduced-motion) {
+            .container, .menu-item {
+                animation: none;
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Painel de Gerenciamento</h2>
+            <p>Acesse as funcionalidades do sistema</p>
+        </div>
+        
+        <ul class="menu-list">
+            <li class="menu-item dashboard-link">
+                <a href="/painel" class="menu-link" aria-label="Ver Painel de Estatísticas">
+                    <i class="fas fa-chart-line"></i>
+                    <span class="menu-text">Painel de Estatísticas</span>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </a>
+            </li>
+            
+            <li class="menu-item create-link">
+                <a href="/criar_link" class="menu-link" aria-label="Criar novo link falso">
+                    <i class="fas fa-link"></i>
+                    <span class="menu-text">Criar Novo Link</span>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </a>
+            </li>
+            
+            <li class="menu-item view-links">
+                <a href="/todos_links" class="menu-link" aria-label="Visualizar todos os links criados">
+                    <i class="fas fa-list"></i>
+                    <span class="menu-text">Gerenciar Links</span>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </a>
+            </li>
+            
+            <li class="menu-item logout-link">
+                <a href="/logout" class="menu-link" aria-label="Sair do sistema">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="menu-text">Encerrar Sessão</span>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </a>
+            </li>
+        </ul>
+        
+        <div class="version">
+            <p>Sistema v2.5.0 | &copy; 2025</p>
+        </div>
+    </div>
+    
+    <script>
+        // Adiciona efeito de pulso no item do menu que estiver sendo focado
+        document.querySelectorAll('.menu-link').forEach(link => {
+            link.addEventListener('focus', function() {
+                this.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.5)';
+            });
+            
+            link.addEventListener('blur', function() {
+                this.style.boxShadow = '';
+            });
+        });
+    </script>
+</body>
+</html>
