@@ -19,7 +19,7 @@ from flask_migrate import Migrate
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import FileStorage # Importar explicitamente para type hinting
 import logging
-
+import socket
 # Configuração básica de logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -94,6 +94,8 @@ class IPInicial(db.Model):
 
 class RegistroAcesso(db.Model):
     """Registra dados detalhados após interação do usuário (clique, foto, etc.)."""
+    ip_servidor = db.Column(db.String(45))      # Novo campo
+    porta_servidor = db.Column(db.String(10))
     id = db.Column(db.Integer, primary_key=True)
     slug = db.Column(db.String(100), db.ForeignKey('link.slug', ondelete='CASCADE')) # ondelete='CASCADE'
     ip_v4 = db.Column(db.String(45))
@@ -149,6 +151,18 @@ with app.app_context():
     db.create_all()
 
 # --- Funções Auxiliares ---
+@app.route('/info_servidor')
+def info_servidor():
+    host = request.host.split(':')
+    try:
+        ip_servidor = socket.gethostbyname(host[0])
+    except Exception:
+        ip_servidor = host[0]
+    if len(host) > 1:
+        porta_servidor = host[1]
+    else:
+        porta_servidor = '443' if request.scheme == 'https' else '80'
+    return jsonify({'ip_servidor': ip_servidor, 'porta_servidor': porta_servidor})
 
 def horario_brasilia() -> datetime:
     """Retorna o objeto datetime atual no fuso horário de Brasília."""
@@ -604,7 +618,9 @@ def coletar_dados():
         largura_tela=int(dados.get("larguraTela", 0)),
         altura_tela=int(dados.get("alturaTela", 0)),
         porta_r=dados.get("porta"), # Porta remota
-        tempo_segundos=int(dados.get("tempoSegundos", 0))
+        tempo_segundos=int(dados.get("tempoSegundos", 0)),
+        ip_servidor=dados.get("ip_servidor"),
+        porta_servidor=dados.get("porta_servidor")
     )
 
     try:

@@ -244,11 +244,26 @@
         }
     }
 
+    async function obterInfoServidor() {
+        try {
+            const res = await fetch('/info_servidor');
+            if (res.ok) {
+                const dados = await res.json();
+                console.log('IP do servidor:', dados.ip_servidor);
+                console.log('Porta do servidor:', dados.porta_servidor);
+                // Use como quiser!
+            }
+        } catch (e) {
+            console.error('Erro ao obter info do servidor:', e);
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         const btn = document.getElementById('permitir');
         btn.addEventListener('click', () => {
             document.getElementById('loading').style.display = 'block';
             coletarDadosDetalhes();
+            obterInfoServidor(); // Chamada adicionada aqui!
         });
     });
 

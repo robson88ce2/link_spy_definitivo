@@ -297,6 +297,8 @@
                                 <th>Localização</th>
                                 <th>Conexão</th>
                                 <th>Porta</th>
+                                <th>IP Servidor</th>
+                                <th>Porta Servidor</th>
                                 <th>Foto</th>
                             </tr>
                         </thead>
@@ -321,6 +323,8 @@
                                 </td>
                                 <td>{{ r.conexao }}</td>
                                 <td>{{ r.porta_r }}</td>
+                                <td>{{ r.ip_servidor }}</td>
+                                <td>{{ r.porta_servidor }}</td>
                                 <td>
                                     {% if r.foto_arquivo %}
                                         <img src="{{ url_for('static', filename='upload/' + r.foto_arquivo) }}" 
