@@ -1,0 +1,145 @@
+╔══════════════════════════════════════════════════════════════╗
+║        🚀 COMANDOS RÁPIDOS - SISTEMA DE INVESTIGAÇÃO        ║
+╚══════════════════════════════════════════════════════════════╝
+
+📦 FAZER PUSH PARA GITHUB
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Opção 1: Script Automático (RECOMENDADO)
+─────────────────────────────────────────
+cd /home/user/webapp
+./EXECUTAR_PUSH.sh
+
+Opção 2: Comandos Manuais
+──────────────────────────
+cd /home/user/webapp
+git push origin main
+
+Quando solicitado:
+  Username: robson88ce2
+  Password: [Seu token ghp_...]
+
+
+🔑 GERAR TOKEN DO GITHUB
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Acesse: https://github.com/settings/tokens
+2. Clique: "Generate new token (classic)"
+3. Preencha:
+   - Note: Link Spy System
+   - Expiration: 90 days
+   - ✓ Marque: repo (todas opções)
+4. Clique: "Generate token"
+5. Copie o token (ghp_...)
+
+
+📂 ACESSAR O REPOSITÓRIO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+URL: https://github.com/robson88ce2/link_spy_definitivo
+
+
+📊 VERIFICAR STATUS DOS COMMITS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Ver commits pendentes:
+cd /home/user/webapp
+git log --oneline -8
+
+Ver status:
+cd /home/user/webapp
+git status
+
+
+🧪 TESTAR O SISTEMA LOCALMENTE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+cd /home/user/webapp
+python app.py
+
+Acesse: http://localhost:5000
+Login: admin / Admin@2025#Seguro
+
+
+📖 LER DOCUMENTAÇÃO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Resumo completo:
+cat /home/user/webapp/RESUMO_FINAL.txt
+
+Guia de testes:
+cat /home/user/webapp/GUIA_TESTES_E_DEPLOY.md
+
+Localização de arquivos:
+cat /home/user/webapp/ONDE_ESTAO_OS_ARQUIVOS.md
+
+Guia de push:
+cat /home/user/webapp/PUSH_GITHUB_MANUAL.md
+
+
+🔧 CONFIGURAÇÃO INICIAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Gerar chaves de segurança:
+cd /home/user/webapp
+python gerar_chaves.py
+
+Instalar dependências:
+cd /home/user/webapp
+pip install -r requirements.txt
+
+
+📋 COMMITS PRONTOS PARA PUSH (8 no total)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ 64ddaa4 - docs: Adicionar guia de push manual
+✅ e1ab3fa - docs: Adicionar guia de localização de arquivos
+✅ 9f62557 - docs: Adicionar resumo executivo final  
+✅ b62885a - docs: Adicionar guia completo de testes e deploy
+✅ 47869b0 - feat: Migração completa do app.py (segurança)
+✅ aae54c0 - feat: Melhorar templates (YouTube/Instagram/TikTok)
+✅ c9fb2cf - docs: Adicionar documentação complementar
+✅ b26fc0a - feat: Implementar melhorias críticas de segurança
+
+
+🎯 PRÓXIMOS PASSOS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. ✅ Gerar token GitHub (se ainda não tem)
+2. ✅ Executar: ./EXECUTAR_PUSH.sh
+3. ✅ Verificar no GitHub: https://github.com/robson88ce2/link_spy_definitivo
+4. ✅ Testar sistema localmente: python app.py
+5. ✅ Configurar produção conforme GUIA_TESTES_E_DEPLOY.md
+
+
+💡 DICAS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+• Mantenha o token GitHub em local seguro
+• Nunca commite o arquivo .env
+• Teste localmente antes de fazer deploy
+• Leia RESUMO_FINAL.txt para visão completa
+• Use ./EXECUTAR_PUSH.sh para push guiado
+
+
+🆘 PROBLEMAS?
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Erro de autenticação:
+- Regenere o token no GitHub
+- Verifique se marcou "repo"
+- Use token novo no push
+
+Push rejeitado:
+git pull origin main --rebase
+git push origin main
+
+Mais ajuda:
+cat PUSH_GITHUB_MANUAL.md
+
+
+═══════════════════════════════════════════════════════════════
+
+🎊 SISTEMA 100% PRONTO - AGUARDANDO PUSH! 🚀
+
+═══════════════════════════════════════════════════════════════
