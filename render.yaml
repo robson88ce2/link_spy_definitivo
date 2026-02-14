@@ -2,10 +2,9 @@ services:
   - type: web
     name: meta
     runtime: python
+    pythonVersion: 3.11.9
     buildCommand: ""
     startCommand: gunicorn app:app
     envVars:
       - key: FLASK_ENV
         value: production
-      - key: PYTHON_VERSION
-        value: 3.11
